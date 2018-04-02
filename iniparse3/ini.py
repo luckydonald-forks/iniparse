@@ -46,6 +46,41 @@ from configparser import DEFAULTSECT, ParsingError, MissingSectionHeaderError
 
 from . import config
 
+class GetStuffMixin(object):
+    def get(self, key, default=None):
+        from .config import Undefined
+        value = self[key];
+        if isinstance(value, Undefined):
+            return default
+        # end if
+        return value
+
+    def default(self, key, default=None):
+        """ Gets a key or sets the default. """
+        from .config import Undefined
+        value = self[key];
+        if isinstance(value, Undefined):
+            self[key] = default
+            return default
+        # end if
+        return value
+
+    def is_empty(self, key):
+        from .config import Undefined
+        value = self[key];
+        if isinstance(value, Undefined):
+            return true
+        # end if
+        return value == ""
+
+    def get_empty(self, key, default=None):
+        """like get, but when is an empty string too."""
+        if self.is_empty(key):
+            return default
+        return self[key]
+    # end def
+
+
 class LineType(object):
     line = None
 
@@ -315,7 +350,7 @@ def _make_xform_property(myattrname, srcattrname=None):
     return property(getfn, setfn)
 
 
-class INISection(config.ConfigNamespace):
+class INISection(config.ConfigNamespace, GetStuffMixin):
     _lines = None
     _options = None
     _defaults = None
@@ -443,7 +478,7 @@ def lower(x):
     return x.lower()
 
 
-class INIConfig(config.ConfigNamespace):
+class INIConfig(config.ConfigNamespace, GetStuffMixin):
     _data = None
     _sections = None
     _defaults = None

@@ -27,10 +27,11 @@ from configparser import Error, InterpolationError, \
 from . import ini
 
 class RawConfigParser(object):
-    def __init__(self, defaults=None, dict_type=dict):
+    def __init__(self, defaults=None, dict_type=dict, strict=False):
         if dict_type != dict:
             raise ValueError('Custom dict types not supported')
         self.data = ini.INIConfig(defaults=defaults, optionxformsource=self)
+        self._strict = strict
 
     def optionxform(self, optionstr):
         return optionstr.lower()
@@ -109,6 +110,49 @@ class RawConfigParser(object):
         used.
         """
         self.data._readfp(fp)
+
+    def read_string(self, string, source='<string>'):
+        """Read configuration from a given string.
+
+        :since: New in version 3.2.
+        """
+        sfile = io.StringIO(string)
+        self.read_file(sfile, source)
+
+    def read_dict(self, dictionary, source='<dict>'):
+        """Read configuration from a dictionary.
+
+        Keys are section names, values are dictionaries with keys and values
+        that should be present in the section. If the used dictionary type
+        preserves order, sections and their keys will be added in order.
+
+        All types held in the dictionary are converted to strings during
+        reading, including section names, option names and keys.
+
+        Optional second argument is the `source' specifying the name of the
+        dictionary being read.
+
+        :since: New in version 3.2.
+        """
+        elements_added = set()
+        for section, keys in dictionary.items():
+            section = str(section)
+            try:
+                self.add_section(section)
+            except (DuplicateSectionError, ValueError):
+                #if self._strict and section in elements_added:
+                #   raise
+                pass
+            elements_added.add(section)
+            for key, value in keys.items():
+                key = self.optionxform(str(key))
+                if value is not None:
+                    value = str(value)
+                # if self._strict and (section, key) in elements_added:
+                #    raise DuplicateOptionError(section, key, source)
+                pass
+                elements_added.add((section, key))
+                self.set(section, key, value)
 
     def get(self, section, option, vars=None):
         if not self.has_section(section):
