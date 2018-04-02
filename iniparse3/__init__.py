@@ -4,10 +4,10 @@
 # Copyright (c) 2018 luckydonald <https://github.com/luckydonald>
 # All Rights Reserved.  See LICENSE-PSF & LICENSE for details.
 
-from ini import INIConfig, change_comment_syntax
-from config import BasicConfig, ConfigNamespace
-from compat import RawConfigParser, ConfigParser, SafeConfigParser
-from utils import tidy
+from .ini import INIConfig, change_comment_syntax
+from .config import BasicConfig, ConfigNamespace
+from .compat import RawConfigParser, ConfigParser, SafeConfigParser
+from .utils import tidy
 
 try:
     # python 3
