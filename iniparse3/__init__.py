@@ -11,12 +11,10 @@ from utils import tidy
 
 try:
     # python 3
-    from configparser import DuplicateSectionError, NoSectionError, NoOptionError, InterpolationMissingOptionError, InterpolationDepthError, InterpolationSyntaxError, 
-DEFAULTSECT, MAX_INTERPOLATION_DEPTH
+    from configparser import DuplicateSectionError, NoSectionError, NoOptionError, InterpolationMissingOptionError, InterpolationDepthError, InterpolationSyntaxError, DEFAULTSECT, MAX_INTERPOLATION_DEPTH
 except ImportError:
     # python 2
-    from ConfigParser import DuplicateSectionError, NoSectionError, NoOptionError, InterpolationMissingOptionError, InterpolationDepthError, InterpolationSyntaxError, 
-DEFAULTSECT, MAX_INTERPOLATION_DEPTH
+    from ConfigParser import DuplicateSectionError, NoSectionError, NoOptionError, InterpolationMissingOptionError, InterpolationDepthError, InterpolationSyntaxError, DEFAULTSECT, MAX_INTERPOLATION_DEPTH
 # end try
 
 __all__ = [
