@@ -2,14 +2,14 @@
 
 from distutils.core import setup
 
-VERSION = '1.4'
+VERSION = '0.4'
 
-setup(name ='iniparse_py3',
+setup(name ='iniparse3',
       version = VERSION,
       description = 'Accessing and Modifying INI files',
-      author = 'Paramjit Oberoi, luckydonald',
+      author = 'Paramjit Oberoi, luckydonald, and others',
       author_email = 'param@cs.wisc.edu',
-      url = 'https://github.com/luckydonald-forks/iniparse/',
+      url = 'https://github.com/luckydonald-forks/iniparse3/',
       license = 'MIT',
       long_description = '''\
 iniparse is an INI parser for  Python which is API compatible
@@ -28,13 +28,5 @@ use.''',
         'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries :: Python Modules',
       ],
-      packages = ['iniparse'],
-      data_files = [
-        ('share/doc/iniparse-%s' % VERSION, ['README', 'LICENSE-PSF',
-                                             'LICENSE', 'Changelog',
-                                             'html/index.html',
-                                             'html/style.css',
-                                             ]),
-      ],
+      packages = ['iniparse3'],
 )
-
