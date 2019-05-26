@@ -54,6 +54,38 @@ class GetStuffMixin(object):
             return default
         # end if
         return value
+    # end def
+    
+    def get_int(self, key, default=None):
+        from .config import Undefined
+        value = self[key];
+        if isinstance(value, Undefined):
+            return default
+        # end if
+        return int(value)
+
+    def get_float(self, section, option):
+        from .config import Undefined
+        value = self[key];
+        if isinstance(value, Undefined):
+            return default
+        # end if
+        return float(value)
+    # end def
+
+    _BOOLEAN_STATES = {'1': True, 'yes': True, 'true': True, 'on': True,
+                       '0': False, 'no': False, 'false': False, 'off': False}
+
+    def get_bool(self, section, option):
+        from .config import Undefined
+        value = self[key];
+        if isinstance(value, Undefined):
+            return default
+        # end if
+        if value.lower() not in self._boolean_states:
+            raise ValueError('Not a boolean: {!r}'.format(value))
+        return self._BOOLEAN_STATES[value.lower()]
+    # end def
 
     def default(self, key, default=None):
         """ Gets a key or sets the default. """
