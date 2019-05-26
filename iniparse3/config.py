@@ -86,7 +86,7 @@ class ConfigNamespace(object):
     def __setstate__(self, state):
         self.__dict__.update(state)
 
-class Undefined(object):
+class Undefined(GetStuffMixin):
     """Helper class used to hold undefined names until assignment.
 
     This class helps create any undefined subsections when an
@@ -105,6 +105,15 @@ class Undefined(object):
     def __setitem__(self, name, value):
         obj = self.namespace._new_namespace(self.name)
         obj[name] = value
+
+    def __getattr__(self, item):
+        """ Undefined can only contain Undefined stuff. """
+        return Undefined(item, self)
+    # end def
+    
+    def __getitem__(self, item):
+        return self.__getattr__(item)
+    # end def
 
 
 # ---- Basic implementation of a ConfigNamespace
