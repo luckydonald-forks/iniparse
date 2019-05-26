@@ -45,27 +45,25 @@ import re
 from configparser import DEFAULTSECT, ParsingError, MissingSectionHeaderError
 
 from . import config
+from .config import Undefined
 
 class GetStuffMixin(object):
-    def get(self, key, default=None):
-        from .config import Undefined
+    def get(self, key, default=Undefined):
         value = self[key];
         if isinstance(value, Undefined):
             return default
         # end if
         return value
     # end def
-    
-    def get_int(self, key, default=None):
-        from .config import Undefined
+
+    def get_int(self, key, default=Undefined):
         value = self[key];
         if isinstance(value, Undefined):
             return default
         # end if
         return int(value)
 
-    def get_float(self, section, option):
-        from .config import Undefined
+    def get_float(self, key, default=Undefined):
         value = self[key];
         if isinstance(value, Undefined):
             return default
@@ -76,8 +74,7 @@ class GetStuffMixin(object):
     _BOOLEAN_STATES = {'1': True, 'yes': True, 'true': True, 'on': True,
                        '0': False, 'no': False, 'false': False, 'off': False}
 
-    def get_bool(self, section, option):
-        from .config import Undefined
+    def get_bool(self, key, default=Undefined):
         value = self[key];
         if isinstance(value, Undefined):
             return default
@@ -87,9 +84,8 @@ class GetStuffMixin(object):
         return self._BOOLEAN_STATES[value.lower()]
     # end def
 
-    def default(self, key, default=None):
+    def default(self, key, default=Undefined):
         """ Gets a key or sets the default. """
-        from .config import Undefined
         value = self[key];
         if isinstance(value, Undefined):
             self[key] = default
@@ -105,7 +101,7 @@ class GetStuffMixin(object):
         # end if
         return value == ""
 
-    def get_empty(self, key, default=None):
+    def get_empty(self, key, default=Undefined):
         """like get, but when is an empty string too."""
         if self.is_empty(key):
             return default
